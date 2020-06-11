@@ -1,8 +1,10 @@
 width = 900;
+// width = window.innerWidth > 0 ? window.innerWidth : screen.width;
 
 margin = { top: 10, right: 120, bottom: 10, left: 40 };
-dy = width / 6;
-dx = 10;
+
+dy = width / 10;
+dx = 15;
 // data = FileAttachment("parshuram.json").json();
 
 tree = d3.tree().nodeSize([dx, dy]);
