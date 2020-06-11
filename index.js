@@ -6,7 +6,6 @@ dx = 10;
 // data = FileAttachment("parshuram.json").json();
 
 tree = d3.tree().nodeSize([dx, dy]);
-console.log(data);
 
 diagonal = d3
   .linkHorizontal()
@@ -15,13 +14,13 @@ diagonal = d3
 
 chart = () => {
   const root = d3.hierarchy(data);
-
+  console.log(root);
   root.x0 = dy / 2;
   root.y0 = 0;
   root.descendants().forEach((d, i) => {
     d.id = i;
     d._children = d.children;
-    if (d.depth && d.data.name.length !== 7) d.children = null;
+    // if (d.depth && d.data.marathi_name.length !== 7) d.children = null;
   });
 
   const svg = d3
@@ -94,7 +93,7 @@ chart = () => {
       .attr("dy", "0.31em")
       .attr("x", (d) => (d._children ? -6 : 6))
       .attr("text-anchor", (d) => (d._children ? "end" : "start"))
-      .text((d) => d.data.name)
+      .text((d) => d.data.marathi_name)
       .clone(true)
       .lower()
       .attr("stroke-linejoin", "round")
