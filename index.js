@@ -4,7 +4,7 @@ width = 900;
 margin = { top: 10, right: 120, bottom: 10, left: 40 };
 
 dy = width / 10;
-dx = 15;
+dx = 10;
 // data = FileAttachment("parshuram.json").json();
 
 tree = d3.tree().nodeSize([dx, dy]);
@@ -22,7 +22,7 @@ chart = () => {
   root.descendants().forEach((d, i) => {
     d.id = i;
     d._children = d.children;
-    // if (d.depth && d.data.marathi_name.length !== 7) d.children = null;
+    // if (d.depth && d.data.marathi_name.length !== 7) d.children = null;  // current visible
   });
 
   const svg = d3
@@ -51,6 +51,7 @@ chart = () => {
     // Compute the new tree layout.
     tree(root);
 
+    // find most left and most right node
     let left = root;
     let right = root;
     root.eachBefore((node) => {
@@ -69,7 +70,7 @@ chart = () => {
         window.ResizeObserver ? null : () => () => svg.dispatch("toggle")
       );
 
-    // Update the nodes…
+    // Update the nodes…  // text nodes
     const node = gNode.selectAll("g").data(nodes, (d) => d.id);
 
     // Enter any new nodes at the parent's previous position.
@@ -93,8 +94,10 @@ chart = () => {
     nodeEnter
       .append("text")
       .attr("dy", "0.31em")
-      .attr("x", (d) => (d._children ? -6 : 6))
-      .attr("text-anchor", (d) => (d._children ? "end" : "start"))
+      //   .attr("x", (d) => (d._children ? -6 : 6))
+      .attr("x", (d) => -6)
+      //   .attr("text-anchor", (d) => (d._children ? "end" : "start"))
+      .attr("text-anchor", (d) => "end")
       .text((d) => d.data.marathi_name)
       .clone(true)
       .lower()
